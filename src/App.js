@@ -1,25 +1,77 @@
-import logo from './logo.svg';
+import { useMemo, useState } from 'react';
 import './App.css';
 
+import ReservationSelectScreen from './ReservationSelectScreen';
+import TicketPaymentScreen from './TicketPaymentScreen';
+import SuccessScreen from './SuccessScreen';
+
+const ADULT_PRICE = 24000;
+const YOUTH_PRICE = 17000;
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  // 화면 상태
+  // 'select' | 'payment' | 'success'
+  const [screen, setScreen] = useState('select');
+
+  const [selectedDate, setSelectedDate] = useState(19);
+  const [adult, setAdult] = useState(2);
+  const [youth, setYouth] = useState(1);
+
+  const totalPrice = useMemo(
+    () => adult * ADULT_PRICE + youth * YOUTH_PRICE,
+    [adult, youth]
   );
+
+  const totalPeople = adult + youth;
+
+  const summary = {
+    title: '마스키아: 과거와 미래를 잇는 삼정적 기쁨',
+    dateText: `1월 ${selectedDate}일 (목)`,
+    timeText: '오후 12시 15분',
+    peopleText: `${totalPeople}명`,
+  };
+
+  // 날짜 / 인원 선택
+  if (screen === 'select') {
+    return (
+      <ReservationSelectScreen
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+        adult={adult}
+        setAdult={setAdult}
+        youth={youth}
+        setYouth={setYouth}
+        adultPrice={ADULT_PRICE}
+        youthPrice={YOUTH_PRICE}
+        onNext={() => setScreen('payment')}
+      />
+    );
+  }
+
+  // 결제 화면
+  if (screen === 'payment') {
+    return (
+      <TicketPaymentScreen
+        adult={adult}
+        youth={youth}
+        totalPrice={totalPrice}
+        onBack={() => setScreen('select')}
+        onPay={() => setScreen('success')}
+      />
+    );
+  }
+
+  // 예매 완료
+  if (screen === 'success') {
+    return (
+      <SuccessScreen
+        summary={summary}
+        onClose={() => setScreen('select')}
+      />
+    );
+  }
+
+  return null;
 }
 
 export default App;

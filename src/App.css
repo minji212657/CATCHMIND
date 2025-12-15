@@ -1,38 +1,750 @@
-.App {
+:root {
+  font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #191919;
+  background-color: #f5f5f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+#root {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.reservation-screen {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: 120px;
+}
+
+.rs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.rs-header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid #eee;
+  background: #fff;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff6f1f;
+}
+
+.icon-btn.rotate {
+  transform: rotate(180deg);
+}
+
+.icon-space {
+  width: 32px;
+  height: 32px;
+}
+
+.rs-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 32px;
+}
+
+.calendar {
+  padding: 24px 20px;
+  border-bottom: 1px solid #f7f7f7;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.calendar-nav h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px 0;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.calendar-day-label {
+  font-size: 12px;
+  color: #9a9a9a;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.calendar-cell {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 14px;
+  color: #333;
 }
 
-.App-header {
-  background-color: #282c34;
+.calendar-cell.selected {
+  background: #ff6f1f;
+  color: #fff;
+  font-weight: 600;
+}
+
+.ticket-section {
+  padding: 24px 20px 120px;
+}
+
+.ticket-section h2 {
+  margin: 0 0 16px;
+  font-size: 18px;
+}
+
+.ticket-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.ticket-row:last-of-type {
+  border-bottom: none;
+}
+
+.ticket-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.ticket-price {
+  margin: 4px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.ticket-note {
+  margin: 0;
+  font-size: 12px;
+  color: #9a9a9a;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.counter-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #e2e2e2;
+  background: #fff;
+  font-size: 18px;
+  color: #ff6f1f;
+}
+
+.counter-value {
+  min-width: 24px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.rs-footer {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform-origin: center;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 16px 20px 24px;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.price-row strong {
+  font-size: 18px;
+  color: #111;
+}
+
+.cta-btn {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  background: #ff6f1f;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 16px;
+}
+
+/* 취소/가격 상세 화면 */
+.price-screen {
+  max-width: 430px;
+  margin: 0 auto;
+  background: #f5f5f5;
   min-height: 100vh;
+}
+
+.price-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.header-icons {
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+.price-content {
+  padding-bottom: 24px;
+}
+
+.hero-placeholder {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, #efefef, #e5e5e5);
+}
+
+.price-card {
+  padding: 16px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.price-title {
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+.price-subtitle,
+.price-rating,
+.price-location,
+.price-dates,
+.price-fare {
+  margin: 2px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.price-rating {
+  color: #ff6f1f;
+}
+
+.tab-row {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tab {
+  border: none;
+  background: #f4f4f4;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.tab.active {
+  background: #ff6f1f;
+  color: #fff;
+}
+
+.poster-section {
+  padding: 16px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.poster-img {
+  width: 100%;
+  height: 280px;
+  background: linear-gradient(135deg, #ededed, #d9d9d9);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.fare-box {
+  padding: 16px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.fare-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.fare-row strong {
+  color: #111;
+}
+
+.fare-note {
+  padding: 16px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.note-text {
+  margin: 0 0 10px;
+  color: #666;
+  font-size: 13px;
+}
+
+.discount-section {
+  padding: 16px;
+  background: #fff;
+}
+
+.section-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.section-caption {
+  margin: 0 0 10px;
+  color: #777;
+  font-size: 13px;
+}
+
+.dot-list {
+  padding-left: 18px;
+  color: #555;
+  font-size: 13px;
+}
+
+.dot-list li {
+  margin-bottom: 6px;
+}
+
+.cancel-screen {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #f7f7f7;
   display: flex;
   flex-direction: column;
+}
+
+.cancel-header {
+  padding: 12px 16px;
+}
+
+.cancel-content {
+  padding: 16px;
+  flex: 1;
+}
+
+.policy-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.policy-section h3 {
+  margin: 0 0 8px;
+}
+
+.disabled-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  background: #f4f4f4;
+  color: #999;
+}
+
+.danger-tag {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #ffeeee;
+  color: #e53935;
+  font-weight: 700;
+}
+
+.accordion {
+  background: #fff;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.accordion-row {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 14px;
+}
+
+.accordion-row:last-child {
+  border-bottom: none;
+}
+
+.cancel-footer {
+  padding: 12px 16px 20px;
+  background: #fff;
+  display: flex;
+  gap: 12px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.block {
+  width: 100%;
+}
+/* 결제 화면 공통 섹션 */
+.payment-section {
+  padding: 20px;
+  border-bottom: 1px solid #f4f4f4;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.payment-title {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.payment-main {
+  margin: 0;
+  font-size: 14px;
+}
+
+.payment-subtitle {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #888;
+}
+
+.payment-ticket {
+  margin-top: 12px;
+}
+
+.payment-highlight {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff4b3a;
+}
+
+.payment-caption {
+  margin: 0;
+  font-size: 12px;
+  color: #888;
+}
+
+.chip-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.chip {
+  border-radius: 999px;
+  border: 1px solid #e2e2e2;
+  background: #fff;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.chip.active {
+  border-color: #ff6f1f;
+  color: #ff6f1f;
+  background: #fff5ec;
+}
+
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-field {
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.info-field.muted {
+  background: #f5f5f5;
+}
+
+.info-field.outline {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-method {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.payment-method.inline {
+  align-items: center;
+}
+
+.payment-radio {
+  margin-top: 6px;
+}
+
+.payment-method-card {
+  flex: 1;
+  border-radius: 16px;
+  background: #111827;
+  padding: 12px;
+  color: #fff;
+}
+
+.payment-method-title {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.payment-method-meta {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.payment-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #fff;
+}
+
+.payment-method-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.coupon-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.coupon-chevron {
+  font-size: 18px;
+  color: #c0c0c0;
+}
+
+.summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-row.muted {
+  color: #888;
+}
+
+.summary-row.total {
+  color: #ff4b3a;
+  font-weight: 600;
+}
+
+/* 예매 완료 화면 */
+.success-screen {
+  background: #f8f8f8;
+}
+
+.success-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 16px;
+}
+
+.success-content {
+  padding: 8px 16px 24px;
+}
+
+.success-title {
+  text-align: center;
+  margin: 12px 0 16px;
+  font-weight: 600;
+}
+
+.success-card {
+  margin: 0 auto 24px;
+  max-width: 260px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.success-thumb {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f2f2f2, #e6e6e6);
+}
+
+.success-meta {
+  margin-top: 12px;
+}
+
+.success-meta-title {
+  margin: 0 0 4px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.success-meta-sub {
+  margin: 0;
+  font-size: 12px;
+  color: #777;
+}
+
+.recommend-section {
+  margin-top: 8px;
+}
+
+.recommend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.recommend-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.recommend-list {
+  display: grid;
+  gap: 12px;
+}
+
+.recommend-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.recommend-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.recommend-card.mini {
+  min-width: 150px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+}
+
+.recommend-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #f3f3f3, #e4e4e4);
+}
+
+.recommend-img.small {
+  height: 96px;
+  aspect-ratio: unset;
+}
+
+.recommend-body {
+  position: relative;
+  padding: 12px;
+}
+
+.recommend-name {
+  margin: 0 0 4px;
+  font-weight: 600;
+}
+
+.recommend-rating {
+  margin: 0;
+  color: #666;
+  font-size: 13px;
+}
+
+.recommend-tag {
+  margin-left: 6px;
+  color: #888;
+}
+
+.recommend-see-all {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chevron {
+  font-size: 14px;
 }
