@@ -48,7 +48,7 @@ function TicketPaymentScreen({ adult = 0, youth = 0, totalPrice = 0, onBack, onP
         {/* 주문 상세 */}
         <section className="payment-section">
           <h2 className="payment-title">주문 상세</h2>
-          <p className="payment-main">버스기사: 과자와 미래를 잇는 삼정적 기쁨</p>
+          <p className="payment-main">바스키아 : 과거와 미래를 잇는 상징적 기호들</p>
           <p className="payment-subtitle">동대문 디자인플라자 전시 1관</p>
 
           <div className="payment-ticket">
