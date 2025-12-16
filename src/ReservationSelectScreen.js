@@ -1,22 +1,31 @@
 import './App.css';
+import React, { useMemo, useEffect } from 'react';
 
 const days = ['일', '월', '화', '수', '목', '금', '토'];
-const totalDays = Array.from({ length: 31 }, (_, i) => i + 1);
 
-function TicketRow({ title, price, count, setCount, note }) {
+function TicketRow({ title, price, count, setCount, note, badge }) {
   return (
     <div className="ticket-row">
       <div>
-        <p className="ticket-title">{title}</p>
+        <p className="ticket-title">
+          {badge && <span className="ticket-badge">{badge}</span>}
+          {title}
+        </p>
         <p className="ticket-price">{price.toLocaleString()}원</p>
         {note && <p className="ticket-note">{note}</p>}
       </div>
       <div className="counter">
-        <button onClick={() => setCount(Math.max(0, count - 1))} className="counter-btn" aria-label={`${title} 감소`}>
+        <button
+          onClick={() => setCount(Math.max(0, count - 1))}
+          className="counter-btn"
+        >
           −
         </button>
         <span className="counter-value">{count}</span>
-        <button onClick={() => setCount(count + 1)} className="counter-btn" aria-label={`${title} 증가`}>
+        <button
+          onClick={() => setCount(count + 1)}
+          className="counter-btn"
+        >
           +
         </button>
       </div>
@@ -34,27 +43,93 @@ function ReservationSelectScreen({
   onNext,
   adultPrice = 24000,
   youthPrice = 17000,
+  discountadultPrice = 17000,
+  // discountyouthPrice = 17000,
 }) {
+  /* =========================
+     📅 달력 상태
+  ========================= */
+  const [year, setYear] = React.useState(2026);
+  const [month, setMonth] = React.useState(0); // 1월
+
+  // 오늘 날짜
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth();
+  const todayDate = today.getDate();
+
+  // 해당 월의 총 날짜 수
+  const totalDays = useMemo(() => {
+    return new Date(year, month + 1, 0).getDate();
+  }, [year, month]);
+
+  // today 자동 선택
+  useEffect(() => {
+    if (
+      year === todayYear &&
+      month === todayMonth &&
+      selectedDate !== todayDate
+    ) {
+      setSelectedDate(todayDate);
+    }
+  }, [
+    year,
+    month,
+    todayYear,
+    todayMonth,
+    todayDate,
+    selectedDate,
+    setSelectedDate,
+  ]);
+
+  // 이전 달
+  const goPrevMonth = () => {
+    if (month === 0) {
+      setYear((y) => y - 1);
+      setMonth(11);
+    } else {
+      setMonth((m) => m - 1);
+    }
+    setSelectedDate(null);
+  };
+
+  // 다음 달
+  const goNextMonth = () => {
+    if (month === 11) {
+      setYear((y) => y + 1);
+      setMonth(0);
+    } else {
+      setMonth((m) => m + 1);
+    }
+    setSelectedDate(null);
+  };
+
   const totalPrice = adult * adultPrice + youth * youthPrice;
 
   return (
     <div className="reservation-screen">
+      {/* Header */}
       <header className="rs-header">
-        <button className="icon-btn" aria-label="뒤로가기">
-          ‹
-        </button>
-        <h1>예매 선택</h1>
+        <button className="icon-btn">‹</button>
+        <h1>매수 선택</h1>
         <span className="icon-space" />
       </header>
 
       <main className="rs-content">
+        {/* Calendar */}
         <section className="calendar">
+          <p className="section-label">방문 날짜 선택</p>
+
           <div className="calendar-nav">
-            <button className="icon-btn" aria-label="이전 달">
+            <button className="icon-btn" onClick={goPrevMonth}>
               ‹
             </button>
-            <h2>2026.01</h2>
-            <button className="icon-btn rotate" aria-label="다음 달">
+            <h2>
+              {year}.{String(month + 1).padStart(2, '0')}
+            </h2>
+            <button className="icon-btn rotate" onClick={goNextMonth}>
               ‹
             </button>
           </div>
@@ -65,44 +140,90 @@ function ReservationSelectScreen({
                 {day}
               </div>
             ))}
-            {totalDays.map((day) => (
-              <button
-                key={day}
-                onClick={() => setSelectedDate(day)}
-                className={day === selectedDate ? 'calendar-cell selected' : 'calendar-cell'}
-              >
-                {day}
-              </button>
-            ))}
+
+            {Array.from({ length: totalDays }, (_, i) => {
+              const day = i + 1;
+              const cellDate = new Date(year, month, day);
+              const isPast = cellDate < today;
+              const isToday =
+                year === todayYear &&
+                month === todayMonth &&
+                day === todayDate;
+
+              return (
+                <button
+                  key={day}
+                  disabled={isPast}
+                  onClick={() => !isPast && setSelectedDate(day)}
+                  className={[
+                    'calendar-cell',
+                    day === selectedDate ? 'selected' : '',
+                    isPast ? 'disabled' : '',
+                    isToday ? 'today' : '',
+                  ].join(' ')}
+                >
+                  {day}
+                </button>
+              );
+            })}
           </div>
         </section>
 
+        {/* Ticket */}
         <section className="ticket-section">
-          <h2>예매 선택</h2>
-          <TicketRow title="성인" price={adultPrice} count={adult} setCount={setAdult} />
+          <h2>매수 선택</h2>
+
           <TicketRow
-            title="어린이/청소년"
+            title="성인 입장권"
+            price={adultPrice}
+            count={adult}
+            setCount={setAdult}
+          />
+
+          <TicketRow
+            title="어린이/청소년 입장권"
             price={youthPrice}
             count={youth}
             setCount={setYouth}
             note="18세 미만(2008년 이후 출생)"
           />
+
+          <TicketRow
+            title="BC 카드 할인-성인"
+            price={discountadultPrice}
+            count={0}
+            setCount={() => {}}
+            badge="[신용카드 할인]"
+            note="티켓 발급 시 본인 확인"
+          />
+
+          <TicketRow
+            title="BC 카드 할인-청소년"
+            price={youthPrice}
+            count={0}
+            setCount={() => {}}
+            badge="[신용카드 할인]"
+            note="티켓 발급 시 본인 확인"
+          />
+
         </section>
       </main>
 
+      {/* Footer */}
       <footer className="rs-footer">
         <div className="price-row">
-          <span>티켓금액</span>
+          <span>티켓 금액</span>
           <strong>{totalPrice.toLocaleString()}원</strong>
         </div>
-        <button className="cta-btn" type="button" onClick={onNext}>
+        <button
+          className="cta-btn"
+          onClick={onNext}
+          disabled={!selectedDate}
+        >
           예매하기
         </button>
       </footer>
     </div>
   );
 }
-
 export default ReservationSelectScreen;
-
-
