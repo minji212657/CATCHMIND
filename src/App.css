@@ -816,13 +816,32 @@ body,
   display: grid;
   gap: 12px;
 }
-
+/* =========================
+   예약완료 화면 (식사는 이런곳 어떄요?)가로 스크롤
+========================= */
 .recommend-row {
   display: flex;
   gap: 12px;
   overflow-x: auto;
   padding-bottom: 8px;
 }
+/* =========================
+   예약완료 화면 (식사는 이런곳 어떄요?)가로 스와이프
+========================= */
+/* .recommend-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+
+  padding-bottom: 8px;
+
+  scrollbar-width: none; 
+}
+.recommend-row::-webkit-scrollbar {
+  display: none;      
+} */
 
 .recommend-card {
   background: #fff;
@@ -832,7 +851,7 @@ body,
 }
 
 .recommend-card.mini {
-  min-width: 150px;
+  min-width: 180px;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
 }
 
@@ -918,4 +937,21 @@ body,
   margin-left: auto;
   color: #c0c0c0;
   font-size: 18px;
+}
+.bookmark-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.bookmark-btn.active {
+  background: #ff6f1f;
+  color: #fff;
 }

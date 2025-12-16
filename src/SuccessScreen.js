@@ -1,4 +1,5 @@
 import './App.css';
+import { useState } from 'react'
 
 const recommends = [
   { id: 1, name: '광장시장 빈대떡', rating: 4.6, category: '한식 · 분식' },
@@ -7,64 +8,58 @@ const recommends = [
   { id: 4, name: '히츠지야', rating: 4.5, category: '일식 · 양고기' },
 ];
 
-function SuccessScreen({ onClose, summary }) {
+function SuccessScreen({ summary, onClose }) {
+  const [items, setItems] = useState(recommends);
+
+  const toggleSave = (id) => {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, saved: !item.saved } : item
+      )
+    );
+  };
+
   const { title, dateText, timeText, peopleText } = summary;
 
   return (
     <div className="reservation-screen success-screen">
       {/* Header */}
       <header className="success-header">
-        <button
-          className="ghost"
-          aria-label="닫기"
-          onClick={onClose}
-        >
-          ✕
-        </button>
+        <button className="ghost" onClick={onClose}>✕</button>
       </header>
 
-      {/* Content */}
       <main className="success-content">
+        {/* 완료 문구 */}
         <h1 className="success-title">예매를 완료했습니다.</h1>
 
-        {/* Ticket Card */}
+        {/* 전시 카드 */}
         <div className="success-card">
-          <div className="success-thumb" aria-hidden />
+          <div className="success-thumb" />
           <p className="success-meta-title">{title}</p>
           <p className="success-meta-sub">
             {dateText} · {timeText} · {peopleText}
           </p>
         </div>
 
-        {/* Recommend */}
+        {/* 추천 */}
         <section className="recommend-section">
           <div className="recommend-header">
             <p className="recommend-title">식사는 이런 곳 어때요?</p>
-            <button
-              className="recommend-see-all"
-              type="button"
-            >
+            <button className="recommend-see-all">
               전체 보기 <span className="chevron">›</span>
             </button>
           </div>
 
           <div className="recommend-row">
-            {recommends.map((item) => (
-              <article
-                key={item.id}
-                className="recommend-card mini"
-              >
-                <div
-                  className="recommend-img small"
-                  aria-hidden
-                />
+            {items.map((item) => (
+              <article key={item.id} className="recommend-card mini">
+                <div className="recommend-img small" />
                 <div className="recommend-body">
                   <p className="recommend-name">{item.name}</p>
-                  <p className="recommend-rating">
-                    ⭐ {item.rating}
-                    <span className="recommend-tag">
-                      {item.category}
-                    </span>
+                  {/* 저장 버튼 */}
+                <button className={`bookmark-btn ${item.saved ? 'active' : ''}`} onClick={() => toggleSave(item.id)} aria-label="저장">🔖</button>
+                  <p className="recommend-rating">⭐ {item.rating}
+                    <span className="recommend-tag">{item.category}</span>
                   </p>
                 </div>
               </article>
@@ -75,5 +70,6 @@ function SuccessScreen({ onClose, summary }) {
     </div>
   );
 }
+
 
 export default SuccessScreen;
