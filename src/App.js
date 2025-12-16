@@ -25,7 +25,7 @@ function App() {
   const totalPeople = adult + youth;
 
   const summary = {
-    title: '마스키아: 과거와 미래를 잇는 삼정적 기쁨',
+    title: '바스키아 : 과거와 미래를 잇는 상징적 기호들',
     dateText: `1월 ${selectedDate}일 (목)`,
     timeText: '오후 12시 15분',
     peopleText: `${totalPeople}명`,
