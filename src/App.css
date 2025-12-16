@@ -955,3 +955,103 @@ body,
   background: #ff6f1f;
   color: #fff;
 }
+/* =========================
+   My Dining Screen Fix
+========================= */
+
+.my-dining-screen {
+  background: #fff;
+  color: #111;
+}
+
+/* Header */
+.my-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  border-bottom: 1px solid #eee;
+}
+
+/* Tabs */
+.my-tabs {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+
+.my-tabs .tab {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  color: #999;
+  background: none;
+  border: none;
+}
+
+.my-tabs .tab.active {
+  color: #111;
+  font-weight: 600;
+  border-bottom: 2px solid #111;
+}
+
+/* Status */
+.status-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #666;
+  background: #f5f5f5;
+  border: none;
+}
+
+.status.active {
+  background: #fff;
+  color: #111;
+  border: 1px solid #111;
+}
+
+/* Reservation Card Text */
+.reservation-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+}
+
+.reservation-sub {
+  font-size: 13px;
+  color: #666;
+}
+
+.reservation-date {
+  font-size: 13px;
+  color: #ff3d00;
+}
+
+/* Buttons */
+.outline-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #111;
+  font-size: 14px;
+}
+
+.fold-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 12px;
+  font-size: 13px;
+  color: #666;
+}
