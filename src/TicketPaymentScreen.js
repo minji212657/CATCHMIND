@@ -12,6 +12,27 @@ function TicketPaymentScreen({ adult = 0, youth = 0, totalPrice = 0, onBack, onP
     ].filter(Boolean),
     [adult, youth]
   );
+  /* =========================
+     약관 동의 state
+  ========================= */
+  const [agreeThirdParty, setAgreeThirdParty] = useState(true);
+  const [agreeRefund, setAgreeRefund] = useState(true);
+
+  const allAgreed = agreeThirdParty && agreeRefund;
+
+  const handleAllAgree = () => {
+    const next = !allAgreed;
+    setAgreeThirdParty(next);
+    setAgreeRefund(next);
+  };
+
+  const handleThirdParty = () => {
+    setAgreeThirdParty((prev) => !prev);
+  };
+
+  const handleRefund = () => {
+    setAgreeRefund((prev) => !prev);
+  };
 
   return (
     <div className="reservation-screen">
@@ -104,24 +125,74 @@ function TicketPaymentScreen({ adult = 0, youth = 0, totalPrice = 0, onBack, onP
         {/* 결제 정보 */}
         <section className="payment-section">
           <h2 className="payment-title">결제 정보</h2>
+
           <div className="summary-list">
             <div className="summary-row">
               <span>티켓 금액</span>
-              <span>{totalPrice.toLocaleString()}원</span>
+              <span className="summary-plus">
+                + {totalPrice.toLocaleString()}원
+              </span>
+            </div>
+              <div className="summary-row muted">
+              <span>예매 수수료</span>
+              <span className="summary-plus">+ 0원</span>
             </div>
             <div className="summary-row muted">
-              <span>할인</span>
-              <span>-0원</span>
+              <span>할인 수단</span>
+              <span className="summary-minus">- 0원</span>
             </div>
+
             <div className="summary-row total">
               <span>최종 결제 금액</span>
-              <span>{totalPrice.toLocaleString()}원</span>
+              <span className="summary-total">
+                {totalPrice.toLocaleString()}원
+              </span>
             </div>
           </div>
         </section>
-      </main>
+        <section className="payment-section">
+          <h2 className="payment-title">약관 동의</h2>
 
+          {/* 모두 동의 */}
+        <label className="agree-all">
+          <input
+            type="checkbox"
+            checked={allAgreed}
+            onChange={handleAllAgree}
+          />
+          <span>모두 동의합니다.</span>
+        </label>
+
+        {/* 개별 약관 */}
+        <div className="agree-list">
+          <label className="agree-item">
+            <input
+              type="checkbox"
+              checked={agreeThirdParty}
+              onChange={handleThirdParty}
+            />
+            <span>개인정보 제 3자 제공 동의</span>
+            <span className="agree-chevron">›</span>
+          </label>
+
+          <label className="agree-item">
+            <input
+              type="checkbox"
+              checked={agreeRefund}
+              onChange={handleRefund}
+            />
+            <span>예약 취소/변경에 대한 환불 정책 동의</span>
+            <span className="agree-chevron">›</span>
+          </label>
+        </div>
+      </section>
+      </main>
+      
       <footer className="rs-footer">
+        <div className="price-row">
+          <span>방문 일자</span>
+          <strong>2026.01.19</strong>
+        </div>
         <div className="price-row">
           <span>최종 결제 금액</span>
           <strong>{totalPrice.toLocaleString()}원</strong>
