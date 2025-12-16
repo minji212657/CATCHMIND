@@ -172,7 +172,7 @@ function ReservationSelectScreen({
         {/* Ticket */}
         <section className="ticket-section">
           <h2>매수 선택</h2>
-
+          <div className="ticket-card">
           <TicketRow
             title="성인 입장권"
             price={adultPrice}
@@ -185,7 +185,6 @@ function ReservationSelectScreen({
             price={youthPrice}
             count={youth}
             setCount={setYouth}
-            note="18세 미만(2008년 이후 출생)"
           />
 
           <TicketRow
@@ -194,7 +193,6 @@ function ReservationSelectScreen({
             count={0}
             setCount={() => {}}
             badge="[신용카드 할인]"
-            note="티켓 발급 시 본인 확인"
           />
 
           <TicketRow
@@ -203,20 +201,22 @@ function ReservationSelectScreen({
             count={0}
             setCount={() => {}}
             badge="[신용카드 할인]"
-            note="티켓 발급 시 본인 확인"
           />
-
+          </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="rs-footer">
-        <div className="price-row">
-          <span>티켓 금액</span>
-          <strong>{totalPrice.toLocaleString()}원</strong>
+      <footer className="rs-footer horizontal">
+        <div className="price-row horizontal">
+          <span className="price-label">티켓 금액</span>
+          <strong className="price-value">
+            {totalPrice.toLocaleString()}원
+          </strong>
         </div>
+
         <button
-          className="cta-btn"
+          className="cta-btn compact"
           onClick={onNext}
           disabled={!selectedDate}
         >
