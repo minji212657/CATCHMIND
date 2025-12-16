@@ -960,8 +960,9 @@ body,
 ========================= */
 
 .my-dining-screen {
-  background: #fff;
+  background: #f5f5f5;
   color: #111;
+  padding-bottom: 92px;
 }
 
 /* Header */
@@ -973,7 +974,17 @@ body,
   font-size: 18px;
   font-weight: 700;
   color: #111;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.my-header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.icon-btn.ghost {
+  color: #333;
+  border: 1px solid #ededed;
 }
 
 /* Tabs */
@@ -997,11 +1008,29 @@ body,
   border-bottom: 2px solid #111;
 }
 
+.my-body {
+  padding: 10px 16px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ad-box {
+  padding: 14px 12px;
+  border-radius: 12px;
+  border: 1px dashed #e6e6e6;
+  background: #fafafa;
+  color: #a7a7a7;
+  font-size: 13px;
+  text-align: center;
+}
+
 /* Status */
 .status-tabs {
   display: flex;
   gap: 8px;
   padding: 12px 16px;
+  padding: 0;
 }
 
 .status {
@@ -1014,9 +1043,9 @@ body,
 }
 
 .status.active {
-  background: #fff;
-  color: #111;
-  border: 1px solid #111;
+  background: #fff7f3;
+  color: #ff4b22;
+  border: 1px solid #ffd9cb;
 }
 
 /* Reservation Card Text */
@@ -1036,6 +1065,11 @@ body,
   color: #ff3d00;
 }
 
+.highlight {
+  color: #ff4b22;
+  font-weight: 600;
+}
+
 /* Buttons */
 .outline-btn {
   width: 100%;
@@ -1045,13 +1079,143 @@ body,
   background: #fff;
   color: #111;
   font-size: 14px;
+  margin-top: 12px;
 }
 
 .fold-btn {
   width: 100%;
   background: none;
   border: none;
-  padding: 12px;
+  padding: 12px 4px 0;
   font-size: 13px;
   color: #666;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reservation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reservation-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f2f2f2;
+}
+
+.reservation-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 999px;
+  background: #ffe9de;
+  color: #ff4b22;
+  font-weight: 700;
+}
+
+.badge.gray {
+  background: #f2f2f2;
+  color: #666;
+}
+
+.badge.outline {
+  border: 1px solid #ffd2c0;
+  background: #fff7f3;
+}
+
+.calendar-icon {
+  margin-left: auto;
+  font-size: 16px;
+  color: #ff4b22;
+}
+
+.reservation-body {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.reservation-thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  object-fit: cover;
+  background: #f2f2f2;
+}
+
+.reservation-thumb.placeholder {
+  background: linear-gradient(135deg, #f2f2f2, #e6e6e6);
+}
+
+.reservation-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.reservation-title {
+  margin: 0 0 4px;
+}
+
+.reservation-sub {
+  margin: 0 0 6px;
+}
+
+.reservation-date {
+  margin: 0;
+}
+
+.fold-btn .chevron {
+  margin-left: auto;
+  color: #bbb;
+  font-size: 14px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 8px 12px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 0;
+  color: #9a9a9a;
+  font-size: 12px;
+}
+
+.nav-item span:first-child {
+  font-size: 18px;
+}
+
+.nav-item.active {
+  color: #ff4b22;
+  font-weight: 700;
 }
