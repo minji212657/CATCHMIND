@@ -1,4 +1,5 @@
 import React from 'react';
+import gaEvent from '../utils/ga';
 
 function CultureCard({
   title,
@@ -13,12 +14,22 @@ function CultureCard({
   onReserve,
   onSave,
 }) {
+  const handleSave = () => {
+    gaEvent('culture_save_click', { title });
+    onSave?.();
+  };
+
+  const handleReserve = () => {
+    gaEvent('culture_reserve_click', { title });
+    onReserve?.();
+  };
+
   return (
     <article style={styles.card}>
       {/* Header */}
       <div style={styles.header}>
         <p style={styles.title}>{title}</p>
-        <button style={styles.saveBtn} onClick={onSave}>
+        <button style={styles.saveBtn} onClick={handleSave}>
           🔖
         </button>
       </div>
@@ -42,7 +53,7 @@ function CultureCard({
       </div>
 
       {/* CTA */}
-      <button style={styles.reserveBtn} onClick={onReserve}>
+      <button style={styles.reserveBtn} onClick={handleReserve}>
         예매하기
       </button>
     </article>

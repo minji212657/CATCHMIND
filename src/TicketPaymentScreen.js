@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import './App.css';
+import gaEvent from './utils/ga';
 
 function TicketPaymentScreen({ adult = 0, youth = 0, totalPrice = 0, onBack, onPay }) {
   const [receiveMethod, setReceiveMethod] = useState('pickup'); // 'pickup' | 'mobile'
@@ -34,10 +35,25 @@ function TicketPaymentScreen({ adult = 0, youth = 0, totalPrice = 0, onBack, onP
     setAgreeRefund((prev) => !prev);
   };
 
+  const handleBack = () => {
+    gaEvent('payment_back_click', { screen: 'TicketPaymentScreen' });
+    onBack?.();
+  };
+
+  const handleReceiveMethod = (method) => {
+    setReceiveMethod(method);
+    gaEvent('payment_receive_method', { method });
+  };
+
+  const handlePay = () => {
+    gaEvent('payment_pay_click', { totalPrice });
+    onPay?.();
+  };
+
   return (
     <div className="reservation-screen">
       <header className="rs-header">
-        <button type="button" className="icon-btn" aria-label="뒤로가기" onClick={onBack}>
+        <button type="button" className="icon-btn" aria-label="뒤로가기" onClick={handleBack}>
           ‹
         </button>
         <h1>티켓 결제</h1>
@@ -68,14 +84,14 @@ function TicketPaymentScreen({ adult = 0, youth = 0, totalPrice = 0, onBack, onP
             <button
               className={receiveMethod === 'pickup' ? 'chip active' : 'chip'}
               type="button"
-              onClick={() => setReceiveMethod('pickup')}
+              onClick={() => handleReceiveMethod('pickup')}
             >
               현장 수령
             </button>
             <button
               className={receiveMethod === 'mobile' ? 'chip active' : 'chip'}
               type="button"
-              onClick={() => setReceiveMethod('mobile')}
+              onClick={() => handleReceiveMethod('mobile')}
             >
               모바일 수령
             </button>
@@ -197,7 +213,7 @@ function TicketPaymentScreen({ adult = 0, youth = 0, totalPrice = 0, onBack, onP
           <span>최종 결제 금액</span>
           <strong>{totalPrice.toLocaleString()}원</strong>
         </div>
-        <button className="cta-btn" type="button" onClick={onPay}>
+        <button className="cta-btn" type="button" onClick={handlePay}>
           결제하기 · {totalPrice.toLocaleString()}원
         </button>
       </footer>

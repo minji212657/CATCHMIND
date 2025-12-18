@@ -1,4 +1,5 @@
 import React from 'react';
+import gaEvent from '../utils/ga';
 
 const RestaurantCard = ({
   name,
@@ -10,12 +11,23 @@ const RestaurantCard = ({
   onSave,
   onSelectDate,
 }) => {
+  const handleSave = () => {
+    gaEvent('restaurant_save_click', { name });
+    onSave?.();
+  };
+
+  const handleSelectDate = (item) => {
+    if (item.status === 'closed') return;
+    gaEvent('restaurant_date_select', { name, label: item.label });
+    onSelectDate?.(item);
+  };
+
   return (
     <article style={styles.card}>
       {/* Header */}
       <div style={styles.header}>
         <h3 style={styles.title}>{name}</h3>
-        <button style={styles.saveBtn} onClick={onSave}>
+        <button style={styles.saveBtn} onClick={handleSave}>
           🔖
         </button>
       </div>
@@ -46,7 +58,7 @@ const RestaurantCard = ({
             <button
               key={item.label}
               disabled={isClosed}
-              onClick={() => !isClosed && onSelectDate?.(item)}
+              onClick={() => handleSelectDate(item)}
               style={{
                 ...styles.dateChip,
                 ...(isClosed ? styles.dateClosed : styles.dateOpen),

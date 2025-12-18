@@ -1,5 +1,6 @@
 import './App.css';
-import { useState } from 'react'
+import { useState } from 'react';
+import gaEvent from './utils/ga';
 
 const recommends = [
   { id: 1, name: '광장시장 빈대떡', rating: 4.6, category: '한식 · 분식' },
@@ -12,6 +13,10 @@ function SuccessScreen({ summary, onClose }) {
   const [items, setItems] = useState(recommends);
 
   const toggleSave = (id) => {
+    const target = items.find((item) => item.id === id);
+    const nextSaved = !target?.saved;
+    gaEvent('success_recommend_save_toggle', { id, saved: nextSaved });
+
     setItems((prev) =>
       prev.map((item) =>
         item.id === id ? { ...item, saved: !item.saved } : item
@@ -21,11 +26,20 @@ function SuccessScreen({ summary, onClose }) {
 
   const { title, dateText, timeText, peopleText } = summary;
 
+  const handleClose = () => {
+    gaEvent('success_close_click', { screen: 'SuccessScreen' });
+    onClose?.();
+  };
+
+  const handleSeeAll = () => {
+    gaEvent('success_recommend_see_all', { screen: 'SuccessScreen' });
+  };
+
   return (
     <div className="reservation-screen success-screen">
       {/* Header */}
       <header className="success-header">
-        <button className="ghost" onClick={onClose}>✕</button>
+        <button className="ghost" onClick={handleClose}>✕</button>
       </header>
 
       <main className="success-content">
@@ -45,7 +59,7 @@ function SuccessScreen({ summary, onClose }) {
         <section className="recommend-section">
           <div className="recommend-header">
             <p className="recommend-title">식사는 이런 곳 어때요?</p>
-            <button className="recommend-see-all">
+            <button className="recommend-see-all" onClick={handleSeeAll}>
               전체 보기 <span className="chevron">›</span>
             </button>
           </div>

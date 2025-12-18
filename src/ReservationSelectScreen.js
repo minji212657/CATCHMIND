@@ -5,6 +5,18 @@ import gaEvent from './utils/ga';
 const days = ['일', '월', '화', '수', '목', '금', '토'];
 
 function TicketRow({ title, price, count, setCount, note, badge }) {
+  const handleDecrement = () => {
+    const newCount = Math.max(0, count - 1);
+    gaEvent('ticket_decrement', { ticket: title, count: newCount });
+    setCount(newCount);
+  };
+
+  const handleIncrement = () => {
+    const newCount = count + 1;
+    gaEvent('ticket_increment', { ticket: title, count: newCount });
+    setCount(newCount);
+  };
+
   return (
     <div className="ticket-row">
       <div>
@@ -17,14 +29,14 @@ function TicketRow({ title, price, count, setCount, note, badge }) {
       </div>
       <div className="counter">
         <button
-          onClick={() => setCount(Math.max(0, count - 1))}
+          onClick={handleDecrement}
           className="counter-btn"
         >
           −
         </button>
         <span className="counter-value">{count}</span>
         <button
-          onClick={() => setCount(count + 1)}
+          onClick={handleIncrement}
           className="counter-btn"
         >
           +
@@ -87,6 +99,10 @@ function ReservationSelectScreen({
 
   // 이전 달
   const goPrevMonth = () => {
+    const targetYear = month === 0 ? year - 1 : year;
+    const targetMonth = month === 0 ? 11 : month - 1;
+    gaEvent('calendar_prev_month', { year: targetYear, month: targetMonth + 1 });
+
     if (month === 0) {
       setYear((y) => y - 1);
       setMonth(11);
@@ -98,6 +114,10 @@ function ReservationSelectScreen({
 
   // 다음 달
   const goNextMonth = () => {
+    const targetYear = month === 11 ? year + 1 : year;
+    const targetMonth = month === 11 ? 0 : month + 1;
+    gaEvent('calendar_next_month', { year: targetYear, month: targetMonth + 1 });
+
     if (month === 11) {
       setYear((y) => y + 1);
       setMonth(0);
@@ -113,7 +133,14 @@ function ReservationSelectScreen({
     <div className="reservation-screen">
       {/* Header */}
       <header className="rs-header">
-        <button className="icon-btn">‹</button>
+        <button
+          className="icon-btn"
+          onClick={() =>
+            gaEvent('header_back_click', { screen: 'ReservationSelectScreen' })
+          }
+        >
+          ‹
+        </button>
         <h1>매수 선택</h1>
         <span className="icon-space" />
       </header>
@@ -155,7 +182,15 @@ function ReservationSelectScreen({
                 <button
                   key={day}
                   disabled={isPast}
-                  onClick={() => !isPast && setSelectedDate(day)}
+                  onClick={() => {
+                    if (isPast) return;
+                    gaEvent('calendar_date_select', {
+                      year,
+                      month: month + 1,
+                      day,
+                    });
+                    setSelectedDate(day);
+                  }}
                   className={[
                     'calendar-cell',
                     day === selectedDate ? 'selected' : '',
@@ -220,12 +255,7 @@ function ReservationSelectScreen({
           className="cta-btn compact"
           disabled={!selectedDate}
           onClick={() => {
-            // ✅ GA 이벤트 직접 호출 (가장 안전)
-            if (window.gtag) {
-              window.gtag('event', 'reservation_click', {
-                screen: 'ReservationSelectScreen',
-              });
-            }
+            gaEvent('reservation_click', { screen: 'ReservationSelectScreen' });
 
             onNext(); // 기존 로직 그대로
           }}

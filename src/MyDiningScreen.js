@@ -1,4 +1,5 @@
 import './App.css';
+import gaEvent from './utils/ga';
 
 const reservations = [
   {
@@ -24,27 +25,37 @@ const reservations = [
 ];
 
 function MyDiningScreen() {
+  const handleSearch = () => gaEvent('my_search_click');
+  const handleTabClick = (tab) => gaEvent('my_tab_click', { tab });
+  const handleStatusClick = (status) =>
+    gaEvent('my_status_click', { status });
+  const handleOutlineClick = (item) =>
+    gaEvent('my_reservation_cta_click', { id: item.id, cta: item.cta });
+  const handleFoldClick = (item) =>
+    gaEvent('my_reservation_fold_click', { id: item.id, footer: item.footer });
+  const handleNavClick = (tab) => gaEvent('my_bottom_nav_click', { tab });
+
   return (
     <div className="reservation-screen my-dining-screen">
       <header className="my-header">
         <h1>마이 다이닝</h1>
-        <button className="icon-btn ghost" aria-label="검색">
+        <button className="icon-btn ghost" aria-label="검색" onClick={handleSearch}>
           🔍
         </button>
       </header>
 
       <div className="my-tabs">
-        <button className="tab active">나의 예약</button>
-        <button className="tab">나의 알림</button>
+        <button className="tab active" onClick={() => handleTabClick('나의 예약')}>나의 예약</button>
+        <button className="tab" onClick={() => handleTabClick('나의 알림')}>나의 알림</button>
       </div>
 
       <main className="my-body">
         <div className="ad-box muted">광고 영역</div>
 
         <div className="status-tabs">
-          <button className="status active">방문 예정</button>
-          <button className="status">방문 완료</button>
-          <button className="status">취소/노쇼</button>
+          <button className="status active" onClick={() => handleStatusClick('방문 예정')}>방문 예정</button>
+          <button className="status" onClick={() => handleStatusClick('방문 완료')}>방문 완료</button>
+          <button className="status" onClick={() => handleStatusClick('취소/노쇼')}>취소/노쇼</button>
         </div>
 
         <section className="reservation-list">
@@ -76,10 +87,10 @@ function MyDiningScreen() {
               </div>
 
               {item.cta && (
-                <button className="outline-btn">{item.cta}</button>
+                <button className="outline-btn" onClick={() => handleOutlineClick(item)}>{item.cta}</button>
               )}
 
-              <button className="fold-btn">
+              <button className="fold-btn" onClick={() => handleFoldClick(item)}>
                 {item.footer} <span className="chevron">⌄</span>
               </button>
             </article>
@@ -88,23 +99,23 @@ function MyDiningScreen() {
       </main>
 
       <nav className="bottom-nav">
-        <button className="nav-item">
+        <button className="nav-item" onClick={() => handleNavClick('홈')}>
           <span>🏠</span>
           <span>홈</span>
         </button>
-        <button className="nav-item">
+        <button className="nav-item" onClick={() => handleNavClick('저장')}>
           <span>🔖</span>
           <span>저장</span>
         </button>
-        <button className="nav-item">
+        <button className="nav-item" onClick={() => handleNavClick('내 주변')}>
           <span>📍</span>
           <span>내 주변</span>
         </button>
-        <button className="nav-item active">
+        <button className="nav-item active" onClick={() => handleNavClick('마이 다이닝')}>
           <span>📅</span>
           <span>마이 다이닝</span>
         </button>
-        <button className="nav-item">
+        <button className="nav-item" onClick={() => handleNavClick('MY')}>
           <span>👤</span>
           <span>MY</span>
         </button>
