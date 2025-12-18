@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useMemo, useEffect } from 'react';
+import gaEvent from './utils/ga';
 
 const days = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -217,8 +218,17 @@ function ReservationSelectScreen({
 
         <button
           className="cta-btn compact"
-          onClick={onNext}
           disabled={!selectedDate}
+          onClick={() => {
+            // ✅ GA 이벤트 직접 호출 (가장 안전)
+            if (window.gtag) {
+              window.gtag('event', 'reservation_click', {
+                screen: 'ReservationSelectScreen',
+              });
+            }
+
+            onNext(); // 기존 로직 그대로
+          }}
         >
           예매하기
         </button>
