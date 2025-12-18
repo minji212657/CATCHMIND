@@ -2,16 +2,34 @@ import { useMemo, useState } from 'react';
 import './App.css';
 import gaEvent from './utils/ga';
 
-function TicketPaymentScreen({ adult = 0, youth = 0, totalPrice = 0, onBack, onPay }) {
+function TicketPaymentScreen({
+  adult = 0,
+  youth = 0,
+  discountAdult = 0,
+  discountYouth = 0,
+  totalPrice = 0,
+  adultPrice = 24000,
+  youthPrice = 17000,
+  discountAdultPrice = 17000,
+  discountYouthPrice = 17000,
+  onBack,
+  onPay,
+}) {
   const [receiveMethod, setReceiveMethod] = useState('pickup'); // 'pickup' | 'mobile'
-  const totalTickets = adult + youth;
+  const totalTickets = adult + youth + discountAdult + discountYouth;
 
   const breakdown = useMemo(
     () => [
-      adult > 0 ? `성인 · 24,000원 × ${adult}매` : null,
-      youth > 0 ? `어린이/청소년 · 17,000원 × ${youth}매` : null,
+      adult > 0 ? `성인 · ${adultPrice.toLocaleString()}원 × ${adult}매` : null,
+      youth > 0 ? `어린이/청소년 · ${youthPrice.toLocaleString()}원 × ${youth}매` : null,
+      discountAdult > 0
+        ? `BC 카드 할인-성인 · ${discountAdultPrice.toLocaleString()}원 × ${discountAdult}매`
+        : null,
+      discountYouth > 0
+        ? `BC 카드 할인-청소년 · ${discountYouthPrice.toLocaleString()}원 × ${discountYouth}매`
+        : null,
     ].filter(Boolean),
-    [adult, youth]
+    [adult, youth, adultPrice, youthPrice, discountAdult, discountYouth, discountAdultPrice, discountYouthPrice]
   );
   /* =========================
      약관 동의 state

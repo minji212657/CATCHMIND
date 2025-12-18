@@ -53,11 +53,15 @@ function ReservationSelectScreen({
   setAdult,
   youth,
   setYouth,
+  discountAdult,
+  setDiscountAdult,
+  discountYouth,
+  setDiscountYouth,
   onNext,
   adultPrice = 24000,
   youthPrice = 17000,
   discountadultPrice = 17000,
-  // discountyouthPrice = 17000,
+  discountYouthPrice = 17000,
 }) {
   /* =========================
      📅 달력 상태
@@ -81,21 +85,13 @@ function ReservationSelectScreen({
   // today 자동 선택
   useEffect(() => {
     if (
+      selectedDate === null &&
       year === todayYear &&
-      month === todayMonth &&
-      selectedDate !== todayDate
+      month === todayMonth
     ) {
       setSelectedDate(todayDate);
     }
-  }, [
-    year,
-    month,
-    todayYear,
-    todayMonth,
-    todayDate,
-    selectedDate,
-    setSelectedDate,
-  ]);
+  }, [year, month, todayYear, todayMonth, todayDate, selectedDate, setSelectedDate]);
 
   // 이전 달
   const goPrevMonth = () => {
@@ -127,7 +123,11 @@ function ReservationSelectScreen({
     setSelectedDate(null);
   };
 
-  const totalPrice = adult * adultPrice + youth * youthPrice;
+  const totalPrice =
+    adult * adultPrice +
+    youth * youthPrice +
+    discountAdult * discountadultPrice +
+    discountYouth * discountYouthPrice;
 
   return (
     <div className="reservation-screen">
@@ -226,16 +226,16 @@ function ReservationSelectScreen({
           <TicketRow
             title="BC 카드 할인-성인"
             price={discountadultPrice}
-            count={0}
-            setCount={() => {}}
+            count={discountAdult}
+            setCount={setDiscountAdult}
             badge="[신용카드 할인]"
           />
 
           <TicketRow
             title="BC 카드 할인-청소년"
-            price={youthPrice}
-            count={0}
-            setCount={() => {}}
+            price={discountYouthPrice}
+            count={discountYouth}
+            setCount={setDiscountYouth}
             badge="[신용카드 할인]"
           />
           </div>

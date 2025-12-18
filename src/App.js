@@ -9,6 +9,8 @@ import gaEvent from './utils/ga';
 
 const ADULT_PRICE = 24000;
 const YOUTH_PRICE = 17000;
+const DISCOUNT_ADULT_PRICE = 17000;
+const DISCOUNT_YOUTH_PRICE = 17000;
 
 function App() {
   // 화면 상태
@@ -18,13 +20,19 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(19);
   const [adult, setAdult] = useState(2);
   const [youth, setYouth] = useState(1);
+  const [discountAdult, setDiscountAdult] = useState(0);
+  const [discountYouth, setDiscountYouth] = useState(0);
 
   const totalPrice = useMemo(
-    () => adult * ADULT_PRICE + youth * YOUTH_PRICE,
-    [adult, youth]
+    () =>
+      adult * ADULT_PRICE +
+      youth * YOUTH_PRICE +
+      discountAdult * DISCOUNT_ADULT_PRICE +
+      discountYouth * DISCOUNT_YOUTH_PRICE,
+    [adult, youth, discountAdult, discountYouth]
   );
 
-  const totalPeople = adult + youth;
+  const totalPeople = adult + youth + discountAdult + discountYouth;
 
   const summary = {
     title: '바스키아 : 과거와 미래를 잇는 상징적 기호들',
@@ -76,8 +84,14 @@ function App() {
         setAdult={setAdult}
         youth={youth}
         setYouth={setYouth}
+        discountAdult={discountAdult}
+        setDiscountAdult={setDiscountAdult}
+        discountYouth={discountYouth}
+        setDiscountYouth={setDiscountYouth}
         adultPrice={ADULT_PRICE}
         youthPrice={YOUTH_PRICE}
+        discountadultPrice={DISCOUNT_ADULT_PRICE}
+        discountYouthPrice={DISCOUNT_YOUTH_PRICE}
         onNext={() => setScreen('payment')}
       />
     );
@@ -89,7 +103,13 @@ function App() {
       <TicketPaymentScreen
         adult={adult}
         youth={youth}
+        discountAdult={discountAdult}
+        discountYouth={discountYouth}
         totalPrice={totalPrice}
+        adultPrice={ADULT_PRICE}
+        youthPrice={YOUTH_PRICE}
+        discountAdultPrice={DISCOUNT_ADULT_PRICE}
+        discountYouthPrice={DISCOUNT_YOUTH_PRICE}
         onBack={() => setScreen('select')}
         onPay={() => setScreen('success')}
       />
