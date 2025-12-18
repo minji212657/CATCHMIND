@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import './App.css';
 
 import ReservationSelectScreen from './ReservationSelectScreen';
 import TicketPaymentScreen from './TicketPaymentScreen';
 import SuccessScreen from './SuccessScreen';
 import MyDiningScreen from './MyDiningScreen';
+import gaEvent from './utils/ga';
 
 const ADULT_PRICE = 24000;
 const YOUTH_PRICE = 17000;
@@ -31,6 +32,35 @@ function App() {
     timeText: '오후 12시 15분',
     peopleText: `${totalPeople}명`,
   };
+
+  // 화면 전환 및 체류 시간 추적
+  const previousScreenRef = useRef(null);
+  const enterTimeRef = useRef(Date.now());
+
+  useEffect(() => {
+    const previous = previousScreenRef.current;
+    const enterTime = Date.now();
+    enterTimeRef.current = enterTime;
+
+    // 페이지/스크린 조회
+    gaEvent('page_view', {
+      page_title: screen,
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+      previous_screen: previous,
+    });
+
+    gaEvent('screen_view', { screen, previous });
+    previousScreenRef.current = screen;
+
+    return () => {
+      const exitTime = Date.now();
+      gaEvent('screen_dwell', {
+        screen,
+        durationMs: exitTime - enterTime,
+      });
+    };
+  }, [screen]);
 
   /* =========================
      화면 분기
