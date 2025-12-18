@@ -82,6 +82,54 @@ function App() {
   }
 
   return null;
+  // compomtents 테스트용 코드
+  //  return (
+  //   <div
+  //     style={{
+  //       padding: 20,
+  //       display: 'flex',
+  //       flexDirection: 'column',
+  //       gap: 20,
+  //     }}
+  //   >
+  //     {/* 🎨 전시 카드 */}
+  //     <CultureCard
+  //       title="바스키아 : 과거와 미래를 잇는 상징적 기호들"
+  //       rating={4.7}
+  //       reviewCount={128}
+  //       location="동대문 디자인플라자"
+  //       audience="전체 관람가"
+  //       period="2026.01.01 ~ 2026.03.31"
+  //       time="오전 10시 ~ 오후 8시"
+  //       adultPrice={24000}
+  //       youthPrice={17000}
+  //       onReserve={() => alert('예매하기')}
+  //       onSave={() => alert('저장')}
+  //     />
+
+  //     {/* 🍽 식당 카드 */}
+  //     <RestaurantCard
+  //       name="차만다 압구정"
+  //       rating={4.6}
+  //       category="유러피언 · 와인"
+  //       location="압구정 로데오"
+  //       images={[
+  //         'https://images.unsplash.com/photo-1528605248644-14dd04022da1',
+  //         'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe',
+  //       ]}
+  //       dates={[
+  //         { label: '오늘 (수)', status: 'closed' },
+  //         { label: '내일 (목)', status: 'closed' },
+  //         { label: '12.12(금)', status: 'open' },
+  //         { label: '12.13(토)', status: 'open' },
+  //       ]}
+  //       onSave={() => alert('저장')}
+  //       onSelectDate={(date) => alert(`${date.label} 선택`)}
+  //     />
+  //   </div>
+  // );
+
+
 }
 
 export default App;
